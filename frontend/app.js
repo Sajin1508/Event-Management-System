@@ -1,4 +1,5 @@
-const API = "http://127.0.0.1:8000/api";
+const API = "https://event-management-system-a7gt.onrender.com";
+const WS_API = `wss://${API.replace(/^https?:\/\//, "")}/ws`;
 let currentUser = null;
 let currentToken = localStorage.getItem("campus_jwt");
 let activeEvents = [];
@@ -32,7 +33,7 @@ async function initApp() {
 }
 
 function initWebSocket() {
-  const ws = new WebSocket("ws://127.0.0.1:8000/ws");
+  const ws = new WebSocket(WS_API);
   ws.onmessage = () => {
     fetchEvents();
     if (currentUser?.role === "admin") loadAdminData();
