@@ -863,83 +863,107 @@ nav {
 
 @page { size: A4 landscape; margin: 0; }
 
+.certificate-print-only {
+  display: none;
+}
+
 @media print {
   html, body {
-    background: #fff !important;
+    background: #ffffff !important;
     color: #18212b !important;
     margin: 0 !important;
     padding: 0 !important;
   }
 
   body.printing-certificate {
-    background: #fff !important;
-    color: #18212b !important;
-    overflow: visible !important;
+    background: #ffffff !important;
   }
 
-  body.printing-certificate > *:not(#cert-modal) {
+  body.printing-certificate > *:not(.certificate-print-only) {
     display: none !important;
     visibility: hidden !important;
   }
 
-  body.printing-certificate #cert-modal {
+  .certificate-print-only {
     display: flex !important;
-    visibility: visible !important;
-    position: static !important;
-    inset: auto !important;
-    width: 100% !important;
-    height: auto !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: #fff !important;
-    backdrop-filter: none !important;
-    opacity: 1 !important;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 100vh;
+    background: #fff;
+    padding: 0;
   }
 
-  body.printing-certificate #cert-modal .modal-box {
-    display: flex !important;
-    width: 100% !important;
-    max-width: none !important;
-    max-height: none !important;
-    height: auto !important;
-    overflow: visible !important;
-    padding: 0 !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    background: #fff !important;
-    box-shadow: none !important;
-  }
-
-  body.printing-certificate .certificate-paper {
+  .certificate-print-paper {
     width: 100%;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 24mm !important;
+    align-items: center;
+    padding: 24mm 16mm;
     box-sizing: border-box;
     border: 3px double #a57912 !important;
-    border-radius: 0 !important;
-    color: #18212b;
-    background: #fff;
+    background: #fff !important;
+    color: #18212b !important;
+    text-align: center;
     print-color-adjust: exact;
     -webkit-print-color-adjust: exact;
   }
 
-  body.printing-certificate .certificate-paper span,
-  body.printing-certificate #cert-student-name,
-  body.printing-certificate #cert-roll,
-  body.printing-certificate .certificate-paper p,
-  body.printing-certificate .certificate-paper b {
+  .certificate-print-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: #a57912;
+    text-transform: uppercase;
+    font-weight: 800;
+  }
+
+  .certificate-print-paper h2,
+  .certificate-print-paper p,
+  .certificate-print-paper b,
+  .certificate-print-paper span {
     color: #18212b !important;
   }
 
-  body.printing-certificate .certificate-paper #cert-event-title {
-    color: #76540c !important;
+  .certificate-print-paper h2 {
+    font-size: 2rem;
+    font-weight: 900;
+    margin: 1rem 0 0.2rem;
   }
 
-  body.printing-certificate .certificate-actions {
-    display: none !important;
-    visibility: hidden !important;
+  .certificate-print-paper #print-cert-roll {
+    color: #4b5563 !important;
+    font-size: 0.9rem;
+  }
+
+  .certificate-print-message {
+    margin: 1.5rem 0;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .certificate-print-message b {
+    color: #76540c !important;
+    font-size: 1.2rem;
+  }
+
+  .certificate-print-meta {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 2rem;
+    border-top: 1px dashed rgba(24, 33, 43, 0.2);
+    padding-top: 1rem;
+  }
+
+  .certificate-print-meta p {
+    font-size: 0.75rem;
+    color: #4b5563 !important;
+    margin-bottom: 0.35rem;
+  }
+
+  .certificate-print-meta b {
+    color: #18212b !important;
   }
 }

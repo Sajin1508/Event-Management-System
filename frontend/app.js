@@ -238,20 +238,25 @@ async function saveStudentProfile(e) {
 }
 
 function printCertificate() {
-  document.body.classList.add("printing-certificate");
   const certModal = document.getElementById("cert-modal");
-  if (certModal) certModal.style.display = "flex";
+  const printSheet = document.getElementById("certificate-print-sheet");
+  if (certModal) certModal.classList.remove("active");
+  if (printSheet) printSheet.classList.add("active");
+  document.body.classList.add("printing-certificate");
+
+  const printName = document.getElementById("print-cert-student-name");
+  const printRoll = document.getElementById("print-cert-roll");
+  const printEvent = document.getElementById("print-cert-event-title");
+  if (printName) printName.textContent = document.getElementById("cert-student-name")?.textContent || "Student Name";
+  if (printRoll) printRoll.textContent = document.getElementById("cert-roll")?.textContent || "Roll No: N/A";
+  if (printEvent) printEvent.textContent = document.getElementById("cert-event-title")?.textContent || "Event Title";
 
   window.addEventListener("afterprint", () => {
     document.body.classList.remove("printing-certificate");
-    if (certModal) certModal.style.display = "";
+    if (printSheet) printSheet.classList.remove("active");
   }, { once: true });
 
-  setTimeout(() => window.print(), 250);
-  setTimeout(() => {
-    document.body.classList.remove("printing-certificate");
-    if (certModal) certModal.style.display = "";
-  }, 1800);
+  setTimeout(() => window.print(), 200);
 }
 
 async function fetchEvents() {
@@ -672,6 +677,9 @@ function viewCertificate(name, roll, eventTitle) {
   document.getElementById("cert-student-name").textContent = name;
   document.getElementById("cert-roll").textContent = `Roll No: ${roll}`;
   document.getElementById("cert-event-title").textContent = eventTitle;
+  document.getElementById("print-cert-student-name").textContent = name;
+  document.getElementById("print-cert-roll").textContent = `Roll No: ${roll}`;
+  document.getElementById("print-cert-event-title").textContent = eventTitle;
   document.getElementById("cert-modal").classList.add("active");
 }
 
