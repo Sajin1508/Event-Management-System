@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event Management System</title>
+  <meta name="description" content="Discover campus events, reserve passes, and manage attendance with the Event Management System." />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+<body>
+
+  
+  <nav>
+    <div class="brand" onclick="navigateTo('home')">
+      <div class="brand-mark"></div>
+      <span>Event Management System</span>
+    </div>
+
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Menu" onclick="toggleMobileNav()">
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+    </button>
+
+    <div class="nav-links" id="nav-links">
+      <button class="nav-btn active" id="nav-home" onclick="navLinkClick('home')">Home</button>
+      <button class="nav-btn" id="nav-events" onclick="navLinkClick('events')">Events</button>
+      <button class="nav-btn" id="nav-bookings" onclick="navLinkClick('bookings')" style="display:none;">My Passes</button>
+      <button class="nav-btn" id="nav-profile" onclick="navLinkClick('profile')" style="display:none;">Profile</button>
+      <button class="nav-btn" id="nav-admin" onclick="navLinkClick('admin')" style="display:none;">Admin Portal</button>
+      <button class="nav-btn" id="nav-contact" onclick="navLinkClick('contact')">Contact</button>
+      <button class="nav-btn" id="nav-auth" onclick="navLinkClick('auth')">Login</button>
+      <span class="role-pill role-visitor" id="user-badge">STUDENT</span>
+    </div>
+  </nav>
+
+  
+  <section class="view active" id="view-home">
+    <div class="hero-wrapper" id="hero-box">
+      <div class="hero-ambient-glow"></div>
+      <div class="hero-content">
+        <div class="hero-chip">
+          <span class="pulse-dot"></span> Campus Event & Fest Management System
+        </div>
+        <h1>College Fests <br><span class="gradient-text">Engineered for Students</span></h1>
+        <p class="hero-subtext">
+          Participate in national hackathons, technical symposiums, robotics cups, and cultural nights. Get instant digital QR passes, automated On-Duty (OD) slips, and verified participation certificates.
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-lg" onclick="navigateTo('events')">Browse Campus Events →</button>
+          <button class="btn btn-secondary btn-lg" id="home-hero-auth-btn" onclick="navigateTo('auth')">Student Login / Sign Up</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-strip">
+      <div class="strip-card">
+        <div class="strip-icon">🏛️</div>
+        <div>
+          <h3 id="home-stat-events">0</h3>
+          <p>Campus Events</p>
+        </div>
+      </div>
+      <div class="strip-card">
+        <div class="strip-icon">🎟️</div>
+        <div>
+          <h3 id="home-stat-seats">0</h3>
+          <p>Student Registrations</p>
+        </div>
+      </div>
+      <div class="strip-card">
+        <div class="strip-icon">⚡</div>
+        <div>
+          <h3 id="home-stat-fill">0%</h3>
+          <p>Hall Fill Rate</p>
+        </div>
+      </div>
+      <div class="strip-card">
+        <div class="strip-icon">🛡️</div>
+        <div>
+          <h3 style="color: var(--emerald);">Active</h3>
+          <p>OD & Gate Sync</p>
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="home-section">
+      <div class="section-title-wrap">
+        <div>
+          <span class="sub-heading">Featured Highlights</span>
+          <h2>Flagship Campus Summits</h2>
+        </div>
+        <button class="btn btn-secondary" onclick="navigateTo('events')">View All Events →</button>
+      </div>
+      <div class="grid" id="home-featured-grid"></div>
+    </div>
+
+    <div class="home-section">
+      <div class="section-title-wrap">
+        <div>
+          <span class="sub-heading">Across Campus</span>
+          <h2>More on Campus</h2>
+          <p class="home-section-intro">Discover events from the departments and clubs building your campus calendar.</p>
+        </div>
+        <button class="btn btn-secondary" onclick="navigateTo('events')">Explore All Events →</button>
+      </div>
+      <div class="home-discovery-grid">
+        <div>
+          <h3 class="home-column-title">More to explore</h3>
+          <div class="home-event-list" id="home-more-events"></div>
+        </div>
+        <aside class="home-hosts">
+          <h3 class="home-column-title">Browse by department or club</h3>
+          <p class="home-hosts-copy">See what each campus group is organizing.</p>
+          <div class="home-host-list" id="home-host-list"></div>
+        </aside>
+      </div>
+    </div>
+
+    
+    <div class="home-section">
+      <div class="section-center-head">
+        <span class="sub-heading">Workflow</span>
+        <h2>How It Works for Students</h2>
+      </div>
+      <div class="pipeline-grid">
+        <div class="pipeline-card">
+          <div class="pipeline-step">01</div>
+          <h4>Explore Events</h4>
+          <p>Find technical hackathons, workshops, and culturals organized by various departments and clubs.</p>
+        </div>
+        <div class="pipeline-card">
+          <div class="pipeline-step">02</div>
+          <h4>Register Solo or Team</h4>
+          <p>Provide your Roll Number and Department. For hackathons, add your teammates with one click.</p>
+        </div>
+        <div class="pipeline-card">
+          <div class="pipeline-step">03</div>
+          <h4>Show Digital QR Pass</h4>
+          <p>Show your digital QR ticket at the auditorium or lab entrance for gate check-in.</p>
+        </div>
+        <div class="pipeline-card">
+          <div class="pipeline-step">04</div>
+          <h4>OD & Certificates</h4>
+          <p>Attended students receive automated participation certificates and On-Duty (OD) validation.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="home-project-overview">
+      <div class="project-overview-heading">
+        <span class="sub-heading">About the Platform</span>
+        <h2>Campus events, managed end to end</h2>
+        <p>Event Management System brings student registrations, event operations, and attendance into one shared campus workspace.</p>
+      </div>
+      <div class="project-capabilities">
+        <article>
+          <span class="capability-index">01</span>
+          <h3>Discover & reserve</h3>
+          <p>Browse technical, cultural, arts, and science events. Reserve individual or team passes and keep your QR ticket in one place.</p>
+        </article>
+        <article>
+          <span class="capability-index">02</span>
+          <h3>Coordinate events</h3>
+          <p>Faculty and event teams can publish schedules, set capacity and fees, add payment QR codes, and manage registrations.</p>
+        </article>
+        <article>
+          <span class="capability-index">03</span>
+          <h3>Check in & certify</h3>
+          <p>Scan passes at the gate, update attendance, and make participation certificates available to checked-in students.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  
+  <section class="view" id="view-events">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h2 style="font-size: 2rem; font-weight: 800;">Campus Events & Fests</h2>
+        <p style="color:var(--text-muted)">Live rosters synced with the campus SQLite database.</p>
+        <p class="events-filter-label" id="events-filter-label" aria-live="polite"></p>
+      </div>
+      <div style="display:flex; gap: 0.5rem;">
+        <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="filterEventCategory('all')">All</button>
+        <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="filterEventCategory('free')">Free Only</button>
+        <button class="btn btn-secondary" style="font-size:0.8rem;" onclick="filterEventCategory('team')">Team / Hackathons</button>
+      </div>
+    </div>
+    <div class="grid" id="events-grid"></div>
+  </section>
+
+  
+  <section class="view" id="view-details">
+    <div class="panel">
+      <button class="btn btn-secondary" style="margin-bottom: 1.5rem;" onclick="navigateTo('events')">← Back to Events</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 0.75rem;">
+        <span class="badge" id="det-badge">Status</span>
+        <h3 id="det-price" style="font-size: 1.4rem; font-weight: 800;">FREE ENTRY</h3>
+      </div>
+      <h1 id="det-title" style="font-size: 2.1rem; font-weight: 800; margin-bottom: 0.5rem;">Event Title</h1>
+      <p id="det-meta" style="color: var(--text-muted); margin-bottom: 1.5rem;">Venue • Date</p>
+      <div id="det-team-badge" style="margin-bottom: 1rem;"></div>
+      <p id="det-desc" style="color: #cbd5e1; line-height: 1.6; margin-bottom: 2rem;">Event description...</p>
+
+      <div style="margin-bottom: 2rem;">
+        <div style="display:flex; justify-content:space-between; font-size: 0.85rem; margin-bottom: 0.4rem;">
+          <span style="color:var(--text-muted)">Seat Occupancy</span>
+          <span id="det-seats">0 / 0</span>
+        </div>
+        <div class="bar-wrap"><div class="bar-fill" id="det-bar" style="width: 0%;"></div></div>
+      </div>
+
+      <button class="btn btn-primary" id="det-book-btn" style="width: 100%; font-size: 1rem;" onclick="proceedToRegister()">
+        Register for Event
+      </button>
+    </div>
+  </section>
+
+  
+  <section class="view" id="view-register">
+    <div class="panel">
+      <button class="btn btn-secondary" style="margin-bottom: 1.5rem;" onclick="navigateTo('details')">← Back to Details</button>
+      <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 0.35rem;">Confirm Registration</h2>
+      <p style="color:var(--text-muted); margin-bottom: 1.5rem;" id="reg-event-title">Event Title</p>
+
+      <form onsubmit="handlePassBooking(event)">
+        <div class="form-group">
+          <label>Student Name</label>
+          <input type="text" id="reg-name" class="form-control" readonly />
+        </div>
+        <div class="form-grid-two" style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label>Roll / Register Number</label>
+            <input type="text" id="reg-roll" class="form-control" readonly />
+          </div>
+          <div class="form-group">
+            <label>Department</label>
+            <input type="text" id="reg-dept" class="form-control" readonly />
+          </div>
+        </div>
+
+        
+        <div id="reg-team-section" style="display:none; background: rgba(99,102,241,0.06); padding: 1.2rem; border-radius: 12px; border: 1px dashed var(--border-focus); margin-bottom: 1.25rem;">
+          <div class="form-group">
+            <label>Team Name</label>
+            <input type="text" id="reg-team-name" class="form-control" placeholder="e.g. ByteBusters" />
+          </div>
+          <div class="form-group">
+            <label>Teammate Roll Numbers (Comma Separated)</label>
+            <input type="text" id="reg-team-members" class="form-control" placeholder="e.g. 22CS105, 22CS108, 22IT014" />
+          </div>
+        </div>
+        
+        <div id="reg-payment-section" style="display:none; background: rgba(245, 158, 11, 0.06); padding: 1.25rem; border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.3); margin-bottom: 1.5rem;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1rem;">
+            <div>
+              <span class="entry-tag entry-paid">PAID ENTRY</span>
+              <h4 style="font-size: 1.1rem; font-weight:800; margin-top:0.3rem;">Entry Fee Required</h4>
+            </div>
+            <h3 id="reg-fee-display" style="color: var(--amber); font-size: 1.5rem; font-weight:900;">₹0</h3>
+          </div>
+
+          <p style="font-size:0.85rem; color:var(--text-muted); line-height: 1.5; margin-bottom: 1rem;">
+            Scan the Campus Fest UPI QR using any app (GPay, PhonePe, Paytm) to pay the registration fee, then enter your 12-digit UTR number below.
+          </p>
+
+          <div class="payment-qr-frame" id="reg-payment-qr">
+            <p class="payment-qr-empty">The event organizer has not added a payment QR code yet.</p>
+          </div>
+
+          <div class="form-group" style="margin-bottom:0;">
+            <label style="color: #fbbf24;">12-Digit UPI Transaction ID / UTR No. *</label>
+            <input type="text" id="reg-upi-utr" class="form-control" maxlength="12" placeholder="e.g. 427819204812" />
+          </div>
+        </div>
+
+        <button type="submit" id="reg-submit-btn" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+          Complete Pass Reservation
+        </button>
+        
+      </form>
+    </div>
+  </section>
+
+  
+  <section class="view" id="view-bookings">
+    <div style="max-width: 820px; margin: 0 auto;">
+      <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">My Event Passes & Badges</h2>
+      <p style="color:var(--text-muted); margin-bottom: 2rem;">Show this QR code at the hall gate for scanning and attendance recording.</p>
+      <div id="bookings-list"></div>
+    </div>
+  </section>
+
+  
+  <section class="view" id="view-contact">
+    <div class="panel">
+      <h2 style="font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem;">Student Council & Helpdesk</h2>
+      <p style="color:var(--text-muted); margin-bottom: 1.5rem;">Need support with event registrations, OD approval, or club proposals?</p>
+      <form onsubmit="alert('Inquiry dispatched to Student Council Coordinator. Check your college inbox.'); navigateTo('home'); return false;">
+        <div class="form-group"><label>Name</label><input type="text" class="form-control" required placeholder="enter your name" /></div>
+        <div class="form-group"><label>College Email</label><input type="email" class="form-control" required placeholder="name@college.name" /></div>
+        <div class="form-group"><label>Message</label><textarea rows="4" class="form-control" required placeholder="detail your query or issue..."></textarea></div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Inquiry</button>
+      </form>
+    </div>
+  </section>
+
+  
+  <section class="view" id="view-auth">
+    <div class="panel">
+      <div style="display:flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 1rem;">
+        <button class="nav-btn active" id="tab-login" onclick="switchAuthTab('login')">Sign In</button>
+        <button class="nav-btn" id="tab-signup" onclick="switchAuthTab('signup')">New Student Sign Up</button>
+      </div>
+
+      
+      <form id="form-login" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Campus Email</label>
+          <input type="email" id="login-email" class="form-control" required placeholder="student@campus.edu" />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="login-password" class="form-control" required placeholder="••••••••" />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Sign In</button>
+        
+      </form>
+
+      
+      <form id="form-signup" onsubmit="handleSignup(event)" style="display: none;">
+        <div class="form-group">
+          <label>Full Student Name</label>
+          <input type="text" id="signup-name" class="form-control" required placeholder="Ananya Sharma" />
+        </div>
+        <div class="form-group">
+          <label>College Email</label>
+          <input type="email" id="signup-email" class="form-control" required placeholder="ananya@campus.edu" />
+        </div>
+        <div class="form-grid-two" style="display:grid; grid-template-columns: 1fr 1fr; gap: 0.8rem;">
+          <div class="form-group">
+            <label>Roll / Reg Number</label>
+            <input type="text" id="signup-roll" class="form-control" required placeholder="23IT042" />
+          </div>
+          <div class="form-group">
+            <label>Department</label>
+            <select id="signup-dept" class="form-control">
+              <optgroup label="Engineering & Technology">
+                <option value="Computer Science & Engineering">Computer Science & Engineering</option>
+                <option value="Information Technology">Information Technology</option>
+                <option value="Electronics & Communication">Electronics & Communication</option>
+                <option value="Mechanical Engineering">Mechanical Engineering</option>
+                <option value="Biotechnology">Biotechnology</option>
+              </optgroup>
+              <optgroup label="Arts & Humanities">
+                <option value="B.A. English">B.A. English</option>
+                <option value="B.A. Economics">B.A. Economics</option>
+                <option value="B.A. History">B.A. History</option>
+                <option value="B.A. Political Science">B.A. Political Science</option>
+                <option value="B.A. Sociology">B.A. Sociology</option>
+                <option value="B.S.W. Social Work">B.S.W. Social Work</option>
+                <option value="M.A. English">M.A. English</option>
+                <option value="M.A. Economics">M.A. Economics</option>
+              </optgroup>
+              <optgroup label="Science">
+                <option value="B.Sc. Mathematics">B.Sc. Mathematics</option>
+                <option value="B.Sc. Physics">B.Sc. Physics</option>
+                <option value="B.Sc. Chemistry">B.Sc. Chemistry</option>
+                <option value="B.Sc. Biology">B.Sc. Biology</option>
+                <option value="B.Sc. Computer Science">B.Sc. Computer Science</option>
+                <option value="B.Sc. Psychology">B.Sc. Psychology</option>
+                <option value="M.Sc. Mathematics">M.Sc. Mathematics</option>
+                <option value="M.Sc. Physics">M.Sc. Physics</option>
+                <option value="M.Sc. Chemistry">M.Sc. Chemistry</option>
+                <option value="M.Sc. Computer Science">M.Sc. Computer Science</option>
+              </optgroup>
+              <optgroup label="Commerce & Management">
+                <option value="B.Com. Commerce">B.Com. Commerce</option>
+                <option value="B.Com. Accounting & Finance">B.Com. Accounting & Finance</option>
+                <option value="BBA Business Administration">BBA Business Administration</option>
+                <option value="BCA Computer Applications">BCA Computer Applications</option>
+                <option value="M.Com. Commerce">M.Com. Commerce</option>
+                <option value="MBA Business Administration">MBA Business Administration</option>
+                <option value="MCA Computer Applications">MCA Computer Applications</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Academic Year</label>
+          <select id="signup-year" class="form-control">
+            <option value="1st Year">1st Year</option>
+            <option value="2nd Year">2nd Year</option>
+            <option value="3rd Year">3rd Year</option>
+            <option value="4th Year">4th Year</option>
+            <option value="Postgraduate">PG / PhD</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="signup-password" class="form-control" minlength="8" required autocomplete="new-password" placeholder="At least 8 characters" />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Create Student Account</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="view" id="view-profile">
+    <div class="panel profile-panel">
+      <h2 style="font-size: 1.8rem; font-weight: 800; margin-bottom: 0.4rem;">Student Profile</h2>
+      <p style="color:var(--text-muted); margin-bottom:1.5rem;">Update the information attached to your event passes.</p>
+      <form onsubmit="saveStudentProfile(event)">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="profile-name" class="form-control" required minlength="2" />
+        </div>
+        <div class="form-group">
+          <label>Campus Email</label>
+          <input type="email" id="profile-email" class="form-control" required />
+        </div>
+        <div class="form-group">
+          <label>Roll / Register Number</label>
+          <input type="text" id="profile-roll" class="form-control" required />
+        </div>
+        <div class="form-group">
+          <label>Department</label>
+          <input type="text" id="profile-department" class="form-control" required />
+        </div>
+        <div class="form-group">
+          <label>Academic Year</label>
+          <input type="text" id="profile-year" class="form-control" required />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Save Profile</button>
+        <p id="profile-message" class="form-message" role="status"></p>
+      </form>
+    </div>
+  </section>
+
+  
+  <section class="view" id="view-admin">
+    <div class="admin-header-box">
+      <div class="admin-title-desc">
+        <h2>Faculty & Club Operations</h2>
+        <p>Live Hall Capacity, Gate Manifest, and Attendance (OD) Verification.</p>
+      </div>
+        <div style="display:flex; gap: 0.5rem; flex-wrap: wrap;">
+        <button class="btn btn-primary" onclick="openScannerModal()" style="background: var(--emerald); box-shadow: 0 4px 14px rgba(16,185,129,0.35);">📷 Scan QR Pass</button>
+        <button class="btn btn-secondary" onclick="exportODList()">📥 Export OD List (CSV)</button>
+        <button class="btn btn-primary admin-create-btn" onclick="openEventModal()">+ Create Event</button>
+      </div>
+      </div>
+    </div>
+
+    
+    <div class="admin-tabs-wrapper">
+      <div class="admin-pills-bar">
+        <button class="pill-tab active" id="tab-adm-events" onclick="switchAdminTab('events')">Campus Events</button>
+        <button class="pill-tab" id="tab-adm-users" onclick="switchAdminTab('users')">Students & OD Roster</button>
+        <button class="pill-tab" id="tab-adm-manifest" onclick="switchAdminTab('manifest')">Gate Check-In</button>
+        <button class="pill-tab" id="tab-adm-staff" onclick="switchAdminTab('staff')">Staff Accounts</button>
+      </div>
+    </div>
+
+    
+    <div id="adm-sec-events" class="admin-table-viewport">
+      <div class="table-scroll-hint">Swipe horizontally to inspect events ➔</div>
+      <table class="responsive-admin-table">
+        <thead>
+          <tr>
+            <th>Event ID</th>
+            <th>Title & Department</th>
+            <th>Date & Venue</th>
+            <th>Type</th>
+            <th>Entry Fee</th>
+            <th>Occupancy</th>
+            <th style="text-align: right;">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="admin-events-table"></tbody>
+      </table>
+    </div>
+
+    
+    <div id="adm-sec-users" class="admin-table-viewport" style="display: none;">
+      <div class="table-scroll-hint">Swipe horizontally to inspect student listings ➔</div>
+      <table class="responsive-admin-table">
+        <thead>
+          <tr>
+            <th>Student ID</th>
+            <th>Student Name</th>
+            <th>Roll Number</th>
+            <th>Department</th>
+            <th>Year</th>
+            <th>Passes</th>
+            <th style="text-align: right;">Listings</th>
+          </tr>
+        </thead>
+        <tbody id="admin-users-table"></tbody>
+      </table>
+    </div>
+
+    
+    <div id="adm-sec-manifest" class="admin-table-viewport" style="display: none;">
+      <div class="table-scroll-hint">Swipe horizontally for gate attendance check-in ➔</div>
+      <table class="responsive-admin-table">
+        <thead>
+          <tr>
+            <th>Pass ID</th>
+            <th>Student & Roll No</th>
+            <th>Event Target</th>
+            <th>Team Name</th>
+            <th>Gate Status</th>
+            <th style="text-align: right;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="admin-manifest-table"></tbody>
+      </table>
+    </div>
+
+    <div id="adm-sec-staff" class="staff-admin-section" style="display:none;">
+      <div class="panel staff-create-panel">
+        <h3 style="font-size:1.2rem; margin-bottom:1rem;">Create Faculty / Staff Account</h3>
+        <form onsubmit="createStaffAccount(event)">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="staff-name" class="form-control" required minlength="2" />
+          </div>
+          <div class="form-group">
+            <label>Work Email</label>
+            <input type="email" id="staff-email" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Employee ID</label>
+            <input type="text" id="staff-id" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Department</label>
+            <input type="text" id="staff-department" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Position / Title</label>
+            <input type="text" id="staff-title" class="form-control" required placeholder="Professor, Lecturer, Club Coordinator" />
+          </div>
+          <div class="form-group">
+            <label>Temporary Password</label>
+            <input type="password" id="staff-password" class="form-control" required minlength="8" autocomplete="new-password" />
+          </div>
+          <button type="submit" class="btn btn-primary">Create Staff Account</button>
+        </form>
+      </div>
+      <div class="admin-table-viewport">
+        <table class="responsive-admin-table">
+          <thead><tr><th>Staff ID</th><th>Name</th><th>Position</th><th>Email</th><th>Department</th></tr></thead>
+          <tbody id="admin-staff-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-main">
+      <div class="footer-about">
+        <div class="footer-brand">
+          <span class="brand-mark"></span>
+          <strong>Event Management System</strong>
+        </div>
+        <p>A shared space for students, departments, and clubs to run campus events from registration through check-in.</p>
+      </div>
+      <div class="footer-navigation">
+        <h2>Explore</h2>
+        <button type="button" onclick="navigateTo('events')">Campus events</button>
+        <button type="button" onclick="navigateTo('auth')">Student sign in</button>
+        <button type="button" onclick="navigateTo('contact')">Contact & help</button>
+      </div>
+      <div class="footer-details">
+        <h2>Campus operations</h2>
+        <p>Event listings · Digital passes · Gate attendance · Participation certificates</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Event Management System</span>
+      <span>Built for campus communities</span>
+    </div>
+  </footer>
+
+  
+  <div class="modal-overlay" id="event-modal">
+    <div class="modal-box">
+      <h3 id="modal-heading" style="font-size: 1.4rem; font-weight: 800; margin-bottom: 1.25rem;">Deploy Campus Event</h3>
+      <form onsubmit="handleSaveEvent(event)">
+        <input type="hidden" id="modal-ev-id" />
+        <div class="form-group">
+          <label>Event Name</label>
+          <input type="text" id="modal-ev-title" class="form-control" required placeholder="e.g. AI Symposium 2026" />
+        </div>
+        <div class="form-grid-two" style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label>Host Department / Club</label>
+            <input type="text" id="modal-ev-category" class="form-control" required placeholder="CSE Dept / Robotics Club" />
+          </div>
+          <div class="form-group">
+            <label>Registration Fee (₹) — 0 for Free</label>
+            <input type="number" id="modal-ev-price" step="1" class="form-control" value="0" oninput="togglePaymentQrField()" />
+          </div>
+        </div>
+        <div class="form-grid-two" style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label>Campus Venue</label>
+            <input type="text" id="modal-ev-venue" class="form-control" required placeholder="Main Auditorium / Lab 3" />
+          </div>
+          <div class="form-group">
+            <label>Date & Time</label>
+            <input type="text" id="modal-ev-date" class="form-control" required placeholder="Oct 28, 2026 • 10:00 AM" />
+          </div>
+        </div>
+        <div class="form-grid-two" style="display:grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label>Hall Seat Capacity</label>
+            <input type="number" id="modal-ev-capacity" class="form-control" required min="1" value="100" />
+          </div>
+          <div class="form-group">
+            <label>Participation Format</label>
+            <select id="modal-ev-team-select" class="form-control" onchange="toggleTeamSizeInput(this.value)">
+              <option value="0">Solo Event</option>
+              <option value="1">Team Event / Hackathon</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group" id="modal-payment-qr-wrap" style="display:none;">
+          <label for="modal-payment-qr">Payment QR Image</label>
+          <input type="file" id="modal-payment-qr" class="form-control" accept="image/png,image/jpeg,image/webp" onchange="handlePaymentQrFile(this)" />
+          <p class="upload-hint">PNG, JPG, or WEBP. Maximum file size: 1 MB.</p>
+          <div class="payment-qr-preview" id="modal-payment-qr-preview"></div>
+        </div>
+        <div class="form-group" id="modal-team-size-wrap" style="display:none;">
+          <label>Max Team Size (e.g. 4 for Hackathons)</label>
+          <input type="number" id="modal-ev-team-size" class="form-control" min="2" max="10" value="4" />
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="modal-ev-status" class="form-control">
+            <option value="Published">Published</option>
+            <option value="Live">Live</option>
+            <option value="Sold Out">Sold Out</option>
+            <option value="Postponed">Postponed</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Description & Rules</label>
+          <textarea id="modal-ev-desc" rows="3" class="form-control" placeholder="Provide problem statement guidelines, prerequisites, etc."></textarea>
+        </div>
+        <div style="display:flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeEventModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Event</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  
+  <div class="modal-overlay" id="user-details-modal">
+    <div class="modal-box" style="max-width: 600px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1.5rem;">
+        <div>
+          <h3 id="udm-name" style="font-size: 1.3rem; font-weight: 800;">Student Bookings</h3>
+          <p id="udm-email" style="font-size: 0.85rem; color: var(--text-muted);">student@campus.edu</p>
+        </div>
+        <button class="btn btn-secondary" onclick="closeUserDetailsModal()">Close</button>
+      </div>
+      <div id="udm-bookings-container"></div>
+    </div>
+  </div>
+
+  
+  <div class="modal-overlay" id="cert-modal">
+    <div class="modal-box" style="max-width: 650px; text-align: center; border: 2px solid #fbbf24; background: #0c0f18;">
+      <div class="certificate-paper" style="padding: 1.5rem; border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 12px;">
+        <span style="font-size: 0.8rem; letter-spacing: 0.1em; color: #fbbf24; text-transform: uppercase; font-weight: 800;">Campus Certificate of Participation</span>
+        <h2 style="font-size: 2rem; font-weight: 900; margin: 1rem 0 0.2rem; color: #fff;" id="cert-student-name">Student Name</h2>
+        <p style="color: var(--text-muted); font-size: 0.9rem;" id="cert-roll">Roll No: 22CS104</p>
+        <p style="margin: 1.5rem 0; color: #cbd5e1; font-size: 1rem; line-height: 1.6;">
+          For successful participation and attendance at <br><b style="color: #818cf8; font-size: 1.2rem;" id="cert-event-title">Event Title</b>.
+        </p>
+        <div style="display:flex; justify-content:space-around; margin-top: 2rem; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 1rem;">
+          <div><p style="font-size:0.75rem; color:var(--text-muted);">STATUS</p><b style="color:var(--emerald);">OFFICIALLY CHECKED IN</b></div>
+          <div><p style="font-size:0.75rem; color:var(--text-muted);">FACULTY AUDIT</p><b style="color:#fff;">VERIFIED</b></div>
+        </div>
+      </div>
+      <div class="certificate-actions" style="margin-top: 1.5rem;">
+        <button class="btn btn-primary" onclick="printCertificate()">Print / Save as PDF</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('cert-modal').classList.remove('active')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="modal-overlay" id="scanner-modal">
+    <div class="modal-box" style="max-width: 520px; text-align: center;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 1rem;">
+        <h3 style="font-size: 1.25rem; font-weight: 800;">Gate QR Pass Scanner</h3>
+        <button class="btn btn-secondary" onclick="closeScannerModal()">Close</button>
+      </div>
+      <p style="color:var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">
+        Point this camera at the student's digital pass on their phone screen.
+      </p>
+      
+      
+      <div id="reader" style="width: 100%; border-radius: 12px; overflow: hidden; background: #000; margin-bottom: 1rem;"></div>
+
+      <div id="scanner-result" style="display:none; padding: 1rem; border-radius: 10px; background: rgba(16,185,129,0.15); border: 1px solid var(--emerald); color: #34d399; font-weight: 700;">
+        Pass Verified!
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js?v=20261001-3"></script>
+</body>
+</html>
