@@ -864,43 +864,55 @@ nav {
 @page { size: A4 landscape; margin: 0; }
 
 @media print {
+  html, body {
+    background: #fff !important;
+    color: #18212b !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
   body.printing-certificate {
     background: #fff !important;
     color: #18212b !important;
+    overflow: visible !important;
   }
 
   body.printing-certificate > *:not(#cert-modal) {
     display: none !important;
+    visibility: hidden !important;
   }
 
   body.printing-certificate #cert-modal {
-    display: block !important;
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
+    display: flex !important;
+    visibility: visible !important;
+    position: static !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
     background: #fff !important;
-    backdrop-filter: none;
+    backdrop-filter: none !important;
+    opacity: 1 !important;
   }
 
   body.printing-certificate #cert-modal .modal-box {
-    width: 100%;
-    height: 100%;
-    max-width: none;
-    max-height: none;
-    overflow: visible;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    background: #fff;
-    box-shadow: none;
+    display: flex !important;
+    width: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: #fff !important;
+    box-shadow: none !important;
   }
 
   body.printing-certificate .certificate-paper {
-    width: 297mm;
-    height: 210mm;
+    width: 100%;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;

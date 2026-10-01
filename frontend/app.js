@@ -239,8 +239,19 @@ async function saveStudentProfile(e) {
 
 function printCertificate() {
   document.body.classList.add("printing-certificate");
-  window.print();
-  document.body.classList.remove("printing-certificate");
+  const certModal = document.getElementById("cert-modal");
+  if (certModal) certModal.style.display = "flex";
+
+  window.addEventListener("afterprint", () => {
+    document.body.classList.remove("printing-certificate");
+    if (certModal) certModal.style.display = "";
+  }, { once: true });
+
+  setTimeout(() => window.print(), 250);
+  setTimeout(() => {
+    document.body.classList.remove("printing-certificate");
+    if (certModal) certModal.style.display = "";
+  }, 1800);
 }
 
 async function fetchEvents() {
