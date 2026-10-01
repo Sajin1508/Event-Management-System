@@ -1,5 +1,5 @@
-const API = "https://event-management-system-a7gt.onrender.com";
-const WS_API = `wss://${API.replace(/^https?:\/\//, "")}/ws`;
+const API = "https://event-management-system-a7gt.onrender.com/api";
+const WS_API = "wss://event-management-system-a7gt.onrender.com/ws";
 let currentUser = null;
 let currentToken = localStorage.getItem("campus_jwt");
 let activeEvents = [];
